@@ -68,3 +68,15 @@ jobs:
       - name: Push to Docker Hub
         if: github.ref == 'refs/heads/main'
         run: docker push ${{ secrets.DOCKER_USERNAME }}/nestjs-demo:latest
+
+      # Step 11 - Trigger Railway Redeploy
+      - name: Trigger Railway Redeploy
+        if: github.ref == 'refs/heads/main'
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "query": "mutation { serviceInstanceRedeploy(environmentId: \"${{ secrets.RAILWAY_ENVIRONMENT_ID }}\", serviceId: \"${{ secrets.RAILWAY_SERVICE_ID }}\") }"
+            }' \
+            https://backboard.railway.app/graphql/v2
