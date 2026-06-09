@@ -14,9 +14,6 @@ COPY . .
 
 RUN npm run build
 
-# Check what's in dist  ← add this temporarily
-RUN ls -la dist/
-
 # Stage 2 — Production
 FROM node:22-alpine AS production
 
