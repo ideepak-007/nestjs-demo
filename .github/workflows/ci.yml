@@ -53,3 +53,7 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
+      # Step 9 - Build Docker image
+      - name: Build Docker image
+        run: docker build -t nestjs-demo .
