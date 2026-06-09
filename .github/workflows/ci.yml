@@ -26,22 +26,28 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      #Step 4 - Lint check
+      # Step 4 - Generate Prisma client
+      - name: Generate Prisma client
+        run: npx prisma generate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      #Step 5 - Lint check
       - name: Lint
         run: npm run lint
 
-      #Step 5 - Build
+      #Step 6 - Build
       - name: Build
         run: npm run build
 
-      #Step 6 - Run test
+      #Step 7 - Run test
       - name: Run test
         run: npm test -- --passWithNoTests
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
-      # Step 7 - Test coverage
+      # Step 8 - Test coverage
       - name: Test coverage
         run: npm run test:cov -- --passWithNoTests
         env:
